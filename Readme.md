@@ -1,6 +1,7 @@
 ```
 pip install audio-metadata
 pip install pathvalidate
+pip install unidecode
 ```
 
 you also need ffmpeg in the same folder as this script OR in your env paths

@@ -5,18 +5,23 @@ import time
 from datetime import datetime
 import os
 
-from threads.jack_of_all_trades import Jack
+from threads.jack_of_all_trades import Jack, Jill
 
 
 def main():
-    inputPath = r''
-    outputPath = r''
+    inputPath = r'C:\Users\geek_\Desktop\Muszack'
+    outputPath = r'C:\Users\geek_\Desktop\Muszack Sorted'
     with Manager() as mpManager:    
         pool_length = cpu_count()
         queueSize = pool_length*10
-        mainQueue = mpManager.Queue(queueSize)
+        mainQueue = mpManager.Queue()
+        messageQueue = mpManager.Queue()
+        messageQueue.put(f'{datetime.now()} > Starting Jill')
+        jill = Process(target=Jill,args=(messageQueue,))
+        jill.start()
+        
         with Pool(pool_length) as pool:
-            jacks = [pool.apply_async(func=Jack,args=(mainQueue,index,outputPath)) for index in range(0,pool_length)]
+            jacks = [pool.apply_async(func=Jack,args=(mainQueue,index,outputPath,messageQueue)) for index in range(0,pool_length)]
             time.sleep(1)
             for root,_,files in os.walk(inputPath):
                 for file in files:
@@ -33,6 +38,7 @@ def main():
                             time.sleep(1)
             for jack in jacks:
                 jack.wait()
+            jill.join()
         
 if __name__ == '__main__':
     start = datetime.now()

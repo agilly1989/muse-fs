@@ -1,0 +1,4 @@
+All Songs/{title}.{hash}.{ext}
+Albums/{album}/{tracknumber} - {title} - {artist}.{hash}.{ext}
+Artists/{artist}/{album}/{tracknumber} - {title}.{hash}.{ext}
+For The Car/{title} - {hash}.{mp3:320k}

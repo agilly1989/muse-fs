@@ -1,3 +1,4 @@
 *.bat
 ffmpeg.exe
 venv
+__pycache__
